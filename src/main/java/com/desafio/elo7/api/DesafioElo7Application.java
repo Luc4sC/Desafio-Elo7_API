@@ -16,7 +16,7 @@ public class DesafioElo7Application {
 		SpringApplication.run(DesafioElo7Application.class, args);
 
 		FileInputStream serviceAccount =
-				new FileInputStream("desafio-elo7-firebase-adminsdk-vtq2a-fbeec79480.json");
+				new FileInputStream("desafio-elo7-key.json");
 
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
