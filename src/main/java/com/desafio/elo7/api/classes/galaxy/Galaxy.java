@@ -1,6 +1,5 @@
 package com.desafio.elo7.api.classes.galaxy;
 
-import com.desafio.elo7.api.classes.planet.Planet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +15,10 @@ import java.util.List;
 public class Galaxy {
     private String id;
     private String name;
-    private final List<String> idsPlanets = new ArrayList<>();
+    private final List<String> planetsIDs = new ArrayList<>();
 
-    public void addIdPlanets(String idPlanet){
-        idsPlanets.add(idPlanet);
+    public void addPlanetID(String idPlanet){
+        planetsIDs.add(idPlanet);
     }
 
     @Override

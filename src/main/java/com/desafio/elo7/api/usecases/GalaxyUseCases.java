@@ -56,4 +56,15 @@ public class GalaxyUseCases {
 
         return galaxySearched;
     }
+
+    public void updateGalaxyPlanetsID(String id) throws ExecutionException, InterruptedException {
+        final Firestore database = FirestoreClient.getFirestore();
+        DocumentReference galaxyDoc = database.collection("galaxies").document(id);
+        Galaxy galaxy = galaxyDoc.get().get().toObject(Galaxy.class);
+        if(galaxy != null){
+            galaxy.addPlanetID(id);
+            galaxyDoc.update("planetsIDs", galaxy.getPlanetsIDs());
+            log.info(galaxy + " Uploaded");
+        }
+    }
 }
