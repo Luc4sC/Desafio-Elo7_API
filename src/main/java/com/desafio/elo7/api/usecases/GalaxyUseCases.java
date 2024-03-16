@@ -44,25 +44,19 @@ public class GalaxyUseCases {
         return galaxies;
     }
 
-    public Galaxy getGalaxyByName(String name) throws ExecutionException, InterruptedException {
-        List<Galaxy> galaxies = getGalaxies();
-        Galaxy galaxySearched = Galaxy.builder().build();
-        for (Galaxy galaxy : galaxies) {
-            if (galaxy.getName().equals(name)) {
-                galaxySearched = galaxy;
-                break;
-            }
-        }
-
-        return galaxySearched;
+    public Galaxy getGalaxyByID(String id) throws ExecutionException, InterruptedException {
+        final Firestore database = FirestoreClient.getFirestore();
+        DocumentReference document = database.collection("galaxies").document(id);
+        log.info(document.toString());
+        return document.get().get().toObject(Galaxy.class);
     }
 
-    public void updateGalaxyPlanetsID(String id) throws ExecutionException, InterruptedException {
+    public void updateGalaxyPlanetsID(String id, String planetID) throws ExecutionException, InterruptedException {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference galaxyDoc = database.collection("galaxies").document(id);
         Galaxy galaxy = galaxyDoc.get().get().toObject(Galaxy.class);
         if(galaxy != null){
-            galaxy.addPlanetID(id);
+            galaxy.addPlanetID(planetID);
             galaxyDoc.update("planetsIDs", galaxy.getPlanetsIDs());
             log.info(galaxy + " Uploaded");
         }
