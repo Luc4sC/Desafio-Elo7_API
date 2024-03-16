@@ -52,4 +52,15 @@ public class PlanetUseCases {
 
         return planets;
     }
+
+    public void updatePlanetProbesID(String id, String probeID) throws ExecutionException, InterruptedException {
+        final Firestore database = FirestoreClient.getFirestore();
+        DocumentReference planetDoc = database.collection("planets").document(id);
+        Planet planet = planetDoc.get().get().toObject(Planet.class);
+        if(planet != null){
+            planet.addProbeID(probeID);
+            planetDoc.update("probesIDs", planet.getProbesIDs());
+            log.info(planet + " Uploaded");
+        }
+    }
 }
