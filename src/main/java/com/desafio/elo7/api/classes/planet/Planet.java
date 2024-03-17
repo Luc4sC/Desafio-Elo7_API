@@ -19,7 +19,6 @@ public class Planet {
     private final List<String> probesIDs = new ArrayList<>();
 
     public void addProbeID(String probeID){
-        if(this.probesIDs.size() >= 25) throw new RuntimeException();
         probesIDs.add(probeID);
     }
 
