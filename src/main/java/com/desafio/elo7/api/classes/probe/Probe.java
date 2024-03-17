@@ -20,13 +20,18 @@ public class Probe {
     private int guidance;
 
     public int getPositionInX() {
-        if(this.positionInX < 0) this.positionInX = this.positionInX * -1 * 4 % 5;
+        if(this.positionInX < 0) this.positionInX = this.positionInX * -4 % 5;
         return this.positionInX;
     }
 
     public int getPositionInY() {
-        if(this.positionInY < 0) this.positionInY = this.positionInY  * -1 * 4 % 5;
+        if(this.positionInY < 0) this.positionInY = this.positionInY  * -4 % 5;
         return this.positionInY;
+    }
+
+    public int getGuidance(){
+        if(this.guidance < 0) this.guidance = this.guidance * -3 % 4;
+        return this.guidance;
     }
 
     @Override

@@ -9,7 +9,19 @@ public class Terminal {
     private final char[] commands = {'M', 'L', 'R'};
     private final String[] guidances = {"North, ↑", "West, ←", "South, ↓", "East, →"};
 
-    public Probe moveProbe(Probe probe, char[] command){
+    public boolean verifyCommands(char[] commands){
+        boolean b = true;
+        for(char c : commands){
+            if (c != 'M' && c != 'L' && c != 'R') {
+                b = false;
+                break;
+            }
+        }
+        if(commands.length > 100 || commands.length == 0) b = false;
+        return b;
+    }
+
+    public void moveProbe(Probe probe, char[] command){
         for (char c : command) {
             if (c == commands[0] && guidances[probe.getGuidance()].equals(guidances[0])) {
                 int newPositionInY = (probe.getPositionInY()  + 1) % 5;
@@ -34,7 +46,6 @@ public class Terminal {
             if (c == commands[1]) probe.setGuidance((probe.getGuidance() + 1) % 4);
             if (c == commands[2]) probe.setGuidance((probe.getGuidance() - 1) % 4);
         }
-        return probe;
     }
 
     public boolean isPositionEmpty(int positionInX, int positionInY, List<Probe> probes){

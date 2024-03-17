@@ -54,4 +54,13 @@ public class ProbeUseCases {
         DocumentReference document = database.collection("probes").document(id);
         return document.get().get().toObject(Probe.class);
     }
+
+    public void updateProbePosition(Probe probe){
+        final Firestore database = FirestoreClient.getFirestore();
+        DocumentReference probeDoc = database.collection("probes").document(probe.getId());
+        probeDoc.update("positionInX", probe.getPositionInX(),
+                "positionInY", probe.getPositionInY(),
+                "guidance", probe.getGuidance());
+        log.info(probe + " Uploaded");
+    }
 }
