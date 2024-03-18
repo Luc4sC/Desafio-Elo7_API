@@ -1,8 +1,11 @@
 package com.desafio.elo7.api.usecases;
 
+import com.desafio.elo7.api.classes.Tools;
 import com.desafio.elo7.api.classes.galaxy.Galaxy;
 import com.desafio.elo7.api.classes.planet.Planet;
 import com.desafio.elo7.api.classes.planet.PlanetDTO;
+import com.desafio.elo7.api.exceptions.InvalidNameException;
+import com.desafio.elo7.api.exceptions.PlanetAlreadyExistException;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
@@ -18,11 +21,14 @@ import java.util.concurrent.ExecutionException;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class PlanetUseCases {
+public class PlanetUseCases implements Tools {
 
     private final GalaxyUseCases galaxyUseCases;
 
     public String newPlanet(@RequestBody PlanetDTO planetDTO, String galaxyID) throws ExecutionException, InterruptedException {
+        if(verifyName(planetDTO.name())) throw new InvalidNameException();
+        if(getPlanetInGalaxyByName(galaxyID, planetDTO.name()) != null) throw new PlanetAlreadyExistException(planetDTO.name());
+
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference newPlanet = database.collection("planets").document();
         Planet planet = Planet.builder().id(newPlanet.getId()).name(planetDTO.name()).build();
@@ -53,6 +59,15 @@ public class PlanetUseCases {
         return planets;
     }
 
+    public Planet getPlanetInGalaxyByName(String galaxyID, String name) throws ExecutionException, InterruptedException {
+        Planet planet = null;
+        List<Planet> planets = getPlanetsByGalaxy(galaxyID);
+        for(Planet planetX : planets){
+            if(planetX.getName().equals(name)) planet = planetX;
+        }
+        return planet;
+    }
+
     public void updatePlanetProbesID(String id, String probeID) throws ExecutionException, InterruptedException {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference planetDoc = database.collection("planets").document(id);
@@ -62,5 +77,10 @@ public class PlanetUseCases {
             planetDoc.update("probesIDs", planet.getProbesIDs());
             log.info(planet + " Uploaded");
         }
+    }
+
+    @Override
+    public boolean verifyName(String name) {
+        return name.contains(" ") || name.contains("/") || name.contains("\\") || name.length() > 20;
     }
 }

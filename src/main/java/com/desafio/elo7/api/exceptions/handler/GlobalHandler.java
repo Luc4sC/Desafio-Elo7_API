@@ -1,8 +1,6 @@
 package com.desafio.elo7.api.exceptions.handler;
 
-import com.desafio.elo7.api.exceptions.InvalidCommandException;
-import com.desafio.elo7.api.exceptions.InvalidNameException;
-import com.desafio.elo7.api.exceptions.PlanetFullException;
+import com.desafio.elo7.api.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +27,29 @@ public class GlobalHandler {
     @ExceptionHandler(PlanetFullException.class)
     public ResponseEntity<Object> handlerInvalidCommandException(PlanetFullException ex,
                                                                  HttpServletRequest request){
+        DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(GalaxyAlreadyExistException.class)
+    public ResponseEntity<Object> handlerGalaxyAlreadyExistException(GalaxyAlreadyExistException ex,
+                                                                     HttpServletRequest request){
+
+        DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(PlanetAlreadyExistException.class)
+    public ResponseEntity<Object> handlerPlanetAlreadyExistException(PlanetAlreadyExistException ex,
+                                                                     HttpServletRequest request){
+
+        DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(ProbeAlreadyExistException.class)
+    public ResponseEntity<Object> handlerProbeAlreadyExistException(ProbeAlreadyExistException ex,
+                                                                    HttpServletRequest request){
         DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }

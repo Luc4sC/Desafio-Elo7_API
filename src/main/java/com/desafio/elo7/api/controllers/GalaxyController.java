@@ -25,7 +25,7 @@ public class GalaxyController {
     }
 
     @PostMapping(path = "post", produces = "application/json; charset=utf-8")
-    public ResponseEntity<String> postGalaxy(@RequestBody @Valid GalaxyDTO galaxyDTO){
+    public ResponseEntity<String> postGalaxy(@RequestBody @Valid GalaxyDTO galaxyDTO) throws ExecutionException, InterruptedException {
         String response = galaxyUseCases.newGalaxy(galaxyDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

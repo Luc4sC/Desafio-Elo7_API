@@ -20,7 +20,7 @@ public class ProbeController {
 
     @GetMapping(path = "{planetID}/get", produces = "application/json; charset=utf-8")
     public ResponseEntity<List<Probe>> getProbesByPlanet(@PathVariable String planetID) throws ExecutionException, InterruptedException {
-        List<Probe> response = probeUseCases.getProbeByPlanet(planetID);
+        List<Probe> response = probeUseCases.getProbesByPlanet(planetID);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

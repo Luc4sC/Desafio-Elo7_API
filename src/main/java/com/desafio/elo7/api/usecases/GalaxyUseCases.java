@@ -1,7 +1,10 @@
 package com.desafio.elo7.api.usecases;
 
+import com.desafio.elo7.api.classes.Tools;
 import com.desafio.elo7.api.classes.galaxy.Galaxy;
 import com.desafio.elo7.api.classes.galaxy.GalaxyDTO;
+import com.desafio.elo7.api.exceptions.GalaxyAlreadyExistException;
+import com.desafio.elo7.api.exceptions.InvalidNameException;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
@@ -20,9 +23,12 @@ import java.util.concurrent.ExecutionException;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class GalaxyUseCases {
+public class GalaxyUseCases implements Tools {
 
-    public String newGalaxy(@RequestBody GalaxyDTO galaxyDTO){
+    public String newGalaxy(@RequestBody GalaxyDTO galaxyDTO) throws ExecutionException, InterruptedException {
+        if(verifyName(galaxyDTO.name())) throw new InvalidNameException();
+        if(getGalaxyByName(galaxyDTO.name()) != null) throw new GalaxyAlreadyExistException(galaxyDTO.name());
+
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference newGalaxy = database.collection("galaxies").document();
         Galaxy galaxy = Galaxy.builder().id(newGalaxy.getId()).name(galaxyDTO.name()).build();
@@ -51,6 +57,15 @@ public class GalaxyUseCases {
         return document.get().get().toObject(Galaxy.class);
     }
 
+    public Galaxy getGalaxyByName(String name) throws ExecutionException, InterruptedException {
+        Galaxy galaxy = null;
+        List<Galaxy> galaxies = getGalaxies();
+        for(Galaxy galaxyX : galaxies){
+            if(galaxyX.getName().equals(name)) galaxy = galaxyX;
+        }
+        return galaxy;
+    }
+
     public void updateGalaxyPlanetsID(String id, String planetID) throws ExecutionException, InterruptedException {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference galaxyDoc = database.collection("galaxies").document(id);
@@ -60,5 +75,10 @@ public class GalaxyUseCases {
             galaxyDoc.update("planetsIDs", galaxy.getPlanetsIDs());
             log.info(galaxy + " Uploaded");
         }
+    }
+
+    @Override
+    public boolean verifyName(String name) {
+        return name.contains(" ") || name.contains("/") || name.contains("\\") || name.length() > 20;
     }
 }

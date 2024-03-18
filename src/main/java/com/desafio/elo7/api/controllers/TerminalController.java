@@ -16,9 +16,9 @@ public class TerminalController {
 
     private TerminalUseCases terminalUseCases;
 
-    @PostMapping(path = "{probeID}/move", produces = "application/json; charset=utf-8")
-    public ResponseEntity<String> moveProbe(@RequestBody TerminalDTO terminalDTO, @PathVariable String probeID) throws ExecutionException, InterruptedException {
-        String response = terminalUseCases.setCommands(terminalDTO, probeID);
+    @PostMapping(path = "{planetID}/{probeID}/move", produces = "application/json; charset=utf-8")
+    public ResponseEntity<String> moveProbe(@RequestBody TerminalDTO terminalDTO, @PathVariable String planetID, @PathVariable String probeID) throws ExecutionException, InterruptedException {
+        String response = terminalUseCases.setCommands(terminalDTO, planetID, probeID);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
