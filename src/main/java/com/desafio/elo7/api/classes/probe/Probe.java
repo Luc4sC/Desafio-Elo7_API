@@ -32,7 +32,11 @@ public class Probe {
         return this.guidance;
     }
 
-
+    public String printProbe() {
+        String[] guidances = {"North, ↑", "West, ←", "South, ↓", "East, →"};
+        return this.getName() + "X = " + (this.getPositionInX() + 1)  + "\nY = " + (this.getPositionInY() + 1) +
+                "\nGuidance: " + guidances[this.getGuidance()];
+    }
     @Override
     public String toString() {
         return "Probe{" +

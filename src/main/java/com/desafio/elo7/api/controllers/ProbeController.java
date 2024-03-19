@@ -24,6 +24,12 @@ public class ProbeController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping(path = "get/{probeID}", produces = "application/json; charset=utf-8")
+    public ResponseEntity<Probe> getProbeByID(@PathVariable String probeID) throws ExecutionException, InterruptedException {
+        Probe response = probeUseCases.getProbeByID(probeID);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @PostMapping(path = "{planetID}/post", produces = "application/json; charset=utf-8")
     public ResponseEntity<String> postProbe(@RequestBody ProbeDTO probeDTO, @PathVariable String planetID) throws ExecutionException, InterruptedException {
         String response = probeUseCases.newProbe(probeDTO,planetID);

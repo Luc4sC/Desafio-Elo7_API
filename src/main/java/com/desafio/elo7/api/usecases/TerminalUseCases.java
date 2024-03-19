@@ -34,6 +34,6 @@ public class TerminalUseCases {
             terminal.moveProbeToEmptyPosition(probe, probes);
 
         probeUseCases.updateProbePosition(probe);
-        return "Probe has been moved Successfully " + probe;
+        return "Probe has been moved Successfully " + probe.printProbe();
     }
 }
