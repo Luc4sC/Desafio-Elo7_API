@@ -39,7 +39,9 @@ public class ProbeUseCases implements Tools {
         Probe probe = Probe.builder().id(newProbe.getId()).name(probeDTO.name()).positionInX(0).positionInY(0).guidance(0).build();
 
         if(!probes.isEmpty()) terminal.landProbe(probe, probes);
-        planetUseCases.updatePlanetProbesID(planetID, probe.getId());
+        Planet planet = planetUseCases.getPlanetByID(planetID);
+        planet.addProbeID(probe.getId());
+        planetUseCases.updatePlanetProbesID(planetID, planet.getProbesIDs());
         newProbe.set(probe);
 
         return probe.toString();
@@ -79,6 +81,38 @@ public class ProbeUseCases implements Tools {
         log.info(probe + " Uploaded");
     }
 
+    public String changeProbeOfPlanet(String oldPlanetID, String probeID, String newPlanetID) throws ExecutionException, InterruptedException {
+        Probe probe = getProbeByID(probeID);
+
+        Planet oldPlanet = planetUseCases.getPlanetByID(oldPlanetID);
+        Planet newPlanet = planetUseCases.getPlanetByID(newPlanetID);
+
+        if(newPlanet.getProbesIDs().size() >= 25) throw new PlanetFullException();
+        if(getProbeInPlanetByName(newPlanetID, probe.getName()) != null) throw new ProbeAlreadyExistException(probe.getName());
+
+        terminal.landProbe(probe, getProbesByPlanet(newPlanetID));
+
+        oldPlanet.removeProbeID(probeID);
+        planetUseCases.updatePlanetProbesID(oldPlanetID, oldPlanet.getProbesIDs());
+        newPlanet.addProbeID(probeID);
+        planetUseCases.updatePlanetProbesID(newPlanetID, newPlanet.getProbesIDs());
+
+        return "Probe + " + probe.getName() + " moved from " + oldPlanet + " to " + newPlanet ;
+    }
+
+    public String deleteProbe(String planetID,String probeID) throws ExecutionException, InterruptedException {
+        final Firestore database = FirestoreClient.getFirestore();
+        DocumentReference probeDoc = database.collection("probes").document(probeID);
+        Probe probe = getProbeByID(probeID);
+        probeDoc.delete();
+
+        Planet planet = planetUseCases.getPlanetByID(planetID);
+        planet.removeProbeID(probeID);
+
+        planetUseCases.updatePlanetProbesID(planetID, planet.getProbesIDs());
+
+        return "Probe: " + probe + " was deleted" ;
+    }
     @Override
     public boolean verifyName(String name) {
         return name.contains(" ") || name.contains("/") || name.contains("\\") || name.length() > 20;

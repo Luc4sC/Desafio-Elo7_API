@@ -27,6 +27,19 @@ public class ProbeController {
     @PostMapping(path = "{planetID}/post", produces = "application/json; charset=utf-8")
     public ResponseEntity<String> postProbe(@RequestBody ProbeDTO probeDTO, @PathVariable String planetID) throws ExecutionException, InterruptedException {
         String response = probeUseCases.newProbe(probeDTO,planetID);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping(path = "{oldPlanetID}/{probeID}/{newPlanetID}/change")
+    public ResponseEntity<String> putProbe(@PathVariable String oldPlanetID, @PathVariable String probeID,
+                                           @PathVariable String newPlanetID) throws ExecutionException, InterruptedException {
+        String response = probeUseCases.changeProbeOfPlanet(oldPlanetID, probeID, newPlanetID);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping(path = "{planetID}/{probeID}/delete")
+    public ResponseEntity<String> deleteProbe(@PathVariable String planetID, @PathVariable String probeID) throws ExecutionException, InterruptedException {
+        String response = probeUseCases.deleteProbe(planetID, probeID);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

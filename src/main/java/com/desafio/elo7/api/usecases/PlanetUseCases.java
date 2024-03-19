@@ -68,15 +68,11 @@ public class PlanetUseCases implements Tools {
         return planet;
     }
 
-    public void updatePlanetProbesID(String id, String probeID) throws ExecutionException, InterruptedException {
+    public void updatePlanetProbesID(String id, List<String> probesIDs) throws ExecutionException, InterruptedException {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference planetDoc = database.collection("planets").document(id);
-        Planet planet = planetDoc.get().get().toObject(Planet.class);
-        if(planet != null){
-            planet.addProbeID(probeID);
-            planetDoc.update("probesIDs", planet.getProbesIDs());
-            log.info(planet + " Uploaded");
-        }
+        planetDoc.update("probesIDs", probesIDs);
+        log.info(planetDoc.get().get().toObject(Planet.class) + " Uploaded");
     }
 
     @Override

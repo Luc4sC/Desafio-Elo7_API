@@ -24,6 +24,10 @@ public class Planet {
         probesIDs.add(probeID);
     }
 
+    public void removeProbeID(String probeID){
+        probesIDs.remove(probeID);
+    }
+
     @Override
     public String toString() {
         return "Planet{" +
