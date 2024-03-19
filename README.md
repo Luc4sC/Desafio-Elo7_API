@@ -29,7 +29,7 @@ Galaxy(Galáxia), Planet(Planeta), Probe(Sonda) e Terminal.
 - É também possível pegar todas as Sondas em um determinado Planeta enviando uma requisição para o endereço: "/api/probe/{planetID}/get".
 - Pegar uma Sonda em especifíco, envia uma requisção para o endereço: "/api/probe/{probeID}/get".
 
-Regras de Negócio:
+**Regras de Negócio:**
 
 - Não é possível haver mais de 25 Sondas em um mesmo Planeta. É possível Haver apenas uma sonda por posição no planeta.
 - Todas as sondas tem como padrão a posição de Pouso X = 1 e Y = 1. Caso já haja uma Sonda nesta posição, ela será movida para uma posição vazia.
