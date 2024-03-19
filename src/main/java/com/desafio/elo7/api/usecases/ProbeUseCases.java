@@ -5,6 +5,7 @@ import com.desafio.elo7.api.classes.planet.Planet;
 import com.desafio.elo7.api.classes.probe.Probe;
 import com.desafio.elo7.api.classes.probe.ProbeDTO;
 import com.desafio.elo7.api.classes.terminal.Terminal;
+import com.desafio.elo7.api.exceptions.IDNotFoundException;
 import com.desafio.elo7.api.exceptions.InvalidNameException;
 import com.desafio.elo7.api.exceptions.PlanetFullException;
 import com.desafio.elo7.api.exceptions.ProbeAlreadyExistException;
@@ -60,7 +61,10 @@ public class ProbeUseCases implements Tools {
     public Probe getProbeByID(String id) throws ExecutionException, InterruptedException {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference document = database.collection("probes").document(id);
-        return document.get().get().toObject(Probe.class);
+        Probe probe = document.get().get().toObject(Probe.class);
+        if(probe == null) throw new IDNotFoundException(id, "Probe");
+        log.info(document.toString());
+        return probe;
     }
 
     public Probe getProbeInPlanetByName(String planetID, String name) throws ExecutionException, InterruptedException {

@@ -4,6 +4,7 @@ import com.desafio.elo7.api.classes.Tools;
 import com.desafio.elo7.api.classes.galaxy.Galaxy;
 import com.desafio.elo7.api.classes.galaxy.GalaxyDTO;
 import com.desafio.elo7.api.exceptions.GalaxyAlreadyExistException;
+import com.desafio.elo7.api.exceptions.IDNotFoundException;
 import com.desafio.elo7.api.exceptions.InvalidNameException;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -53,8 +54,10 @@ public class GalaxyUseCases implements Tools {
     public Galaxy getGalaxyByID(String id) throws ExecutionException, InterruptedException {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference document = database.collection("galaxies").document(id);
+        Galaxy galaxy = document.get().get().toObject(Galaxy.class);
+        if(galaxy == null) throw new IDNotFoundException(id, "Galaxy");
         log.info(document.toString());
-        return document.get().get().toObject(Galaxy.class);
+        return galaxy;
     }
 
     public Galaxy getGalaxyByName(String name) throws ExecutionException, InterruptedException {

@@ -53,4 +53,10 @@ public class GlobalHandler {
         DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(IDNotFoundException.class)
+    public ResponseEntity<Object> handlerIDNotFoundException(IDNotFoundException ex, HttpServletRequest request){
+        DefaultError error = new DefaultError(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 }

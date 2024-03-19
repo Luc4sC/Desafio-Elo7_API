@@ -4,6 +4,7 @@ import com.desafio.elo7.api.classes.Tools;
 import com.desafio.elo7.api.classes.galaxy.Galaxy;
 import com.desafio.elo7.api.classes.planet.Planet;
 import com.desafio.elo7.api.classes.planet.PlanetDTO;
+import com.desafio.elo7.api.exceptions.IDNotFoundException;
 import com.desafio.elo7.api.exceptions.InvalidNameException;
 import com.desafio.elo7.api.exceptions.PlanetAlreadyExistException;
 import com.google.cloud.firestore.DocumentReference;
@@ -42,8 +43,10 @@ public class PlanetUseCases implements Tools {
     public Planet getPlanetByID(String id) throws ExecutionException, InterruptedException {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference document = database.collection("planets").document(id);
-
-        return document.get().get().toObject(Planet.class);
+        Planet planet = document.get().get().toObject(Planet.class);
+        if(planet == null) throw new IDNotFoundException(id, "Planet");
+        log.info(document.toString());
+        return planet;
     }
 
     public List<Planet> getPlanetsByGalaxy(String galaxyID) throws ExecutionException, InterruptedException {
