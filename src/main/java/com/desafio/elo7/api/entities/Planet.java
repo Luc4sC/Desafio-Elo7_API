@@ -1,4 +1,4 @@
-package com.desafio.elo7.api.classes.galaxy;
+package com.desafio.elo7.api.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,23 +9,28 @@ import lombok.experimental.SuperBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @SuperBuilder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Galaxy {
+public class Planet {
+
     private String id;
     private String name;
-    private final List<String> planetsIDs = new ArrayList<>();
+    private final List<String> probesIDs = new ArrayList<>();
 
-    public void addPlanetID(String idPlanet){
-        planetsIDs.add(idPlanet);
+    public void addProbeID(String probeID){
+        probesIDs.add(probeID);
+    }
+
+    public void removeProbeID(String probeID){
+        probesIDs.remove(probeID);
     }
 
     @Override
     public String toString() {
-        return "Galaxy{" +
+        return "Planet{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 '}';

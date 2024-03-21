@@ -1,13 +1,13 @@
-package com.desafio.elo7.api.classes.terminal;
+package com.desafio.elo7.api.entities;
 
-import com.desafio.elo7.api.classes.probe.Probe;
 import org.springframework.stereotype.Service;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class Terminal {
     private final char[] commands = {'M', 'L', 'R'};
-    private final String[] guidances = {"North, ↑", "West, ←", "South, ↓", "East, →"};
+    private final List<String> guidances = Arrays.asList("North, ↑", "West, ←", "South, ↓", "East, →");
 
     public boolean verifyCommands(char[] commands){
         boolean b = true;
@@ -23,28 +23,31 @@ public class Terminal {
 
     public void moveProbe(Probe probe, char[] command){
         for (char c : command) {
-            if (c == commands[0] && guidances[probe.getGuidance()].equals(guidances[0])) {
-                int newPositionInY = (probe.getPositionInY()  + 1) % 5;
+            String currentGuidance = probe.getGuidance();
+            int currentGuidanceInList = guidances.indexOf(currentGuidance);
+
+            if (c == commands[0] && currentGuidanceInList == 0) {
+                int newPositionInY = (probe.getPositionInY() + 1) % 5;
                 probe.setPositionInY(newPositionInY);
             }
 
-            if (c == commands[0] && guidances[probe.getGuidance()].equals(guidances[1])) {
+            if (c == commands[0] && currentGuidanceInList == 1) {
                 int newPositionInX = (probe.getPositionInX() - 1) % 5;
                 probe.setPositionInX(newPositionInX);
             }
 
-            if (c == commands[0] && guidances[probe.getGuidance()].equals(guidances[2])) {
+            if (c == commands[0] && currentGuidanceInList == 2) {
                 int newPositionInY = (probe.getPositionInY() - 1) % 5;
                 probe.setPositionInY(newPositionInY);
             }
 
-            if (c == commands[0] && guidances[probe.getGuidance()].equals(guidances[3])) {
+            if (c == commands[0] && currentGuidanceInList == 3) {
                 int newPositionInX = (probe.getPositionInX() + 1) % 5;
                 probe.setPositionInX(newPositionInX);
             }
 
-            if (c == commands[1]) probe.setGuidance((probe.getGuidance() + 1) % 4);
-            if (c == commands[2]) probe.setGuidance((probe.getGuidance() - 1) % 4);
+            if (c == commands[1]) probe.setGuidance(guidances.get(currentGuidanceInList + 1));
+            if (c == commands[2]) probe.setGuidance(guidances.get(currentGuidanceInList + 1));
         }
     }
 

@@ -1,4 +1,4 @@
-package com.desafio.elo7.api.classes.probe;
+package com.desafio.elo7.api.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

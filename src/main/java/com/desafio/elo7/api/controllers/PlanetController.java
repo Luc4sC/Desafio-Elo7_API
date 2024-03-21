@@ -1,9 +1,11 @@
 package com.desafio.elo7.api.controllers;
 
-import com.desafio.elo7.api.classes.planet.Planet;
-import com.desafio.elo7.api.classes.planet.PlanetDTO;
+import com.desafio.elo7.api.entities.Planet;
+import com.desafio.elo7.api.dtos.PlanetDTO;
 import com.desafio.elo7.api.usecases.PlanetUseCases;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,20 +14,20 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("api/planet")
 public class PlanetController {
 
-    private final PlanetUseCases planetUseCases;
-    @GetMapping(path = "{galaxyID}/get", produces = "application/json; charset=utf-8")
+    @Autowired
+    private PlanetUseCases planetUseCases;
+    @GetMapping(path = "{galaxyID}", produces = "application/json; charset=utf-8")
     public ResponseEntity<List<Planet>> getPlanetsByGalaxy(@PathVariable String galaxyID) throws ExecutionException, InterruptedException {
         List<Planet> response = planetUseCases.getPlanetsByGalaxy(galaxyID);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping(path = "{galaxyID}/post", produces = "application/json; charset=utf-8")
-    public ResponseEntity<String> postPlanet(@RequestBody PlanetDTO planetDTO, @PathVariable String galaxyID) throws ExecutionException, InterruptedException {
-        String response = planetUseCases.newPlanet(planetDTO, galaxyID);
+    @PostMapping(path = "{galaxyID}", produces = "application/json; charset=utf-8")
+    public ResponseEntity<Planet> newPlanet(@RequestBody @Valid PlanetDTO planetDTO, @PathVariable String galaxyID) throws ExecutionException, InterruptedException {
+        Planet response = planetUseCases.newPlanet(planetDTO, galaxyID);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
