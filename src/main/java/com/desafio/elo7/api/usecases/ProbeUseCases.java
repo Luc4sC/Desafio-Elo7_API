@@ -91,6 +91,7 @@ public class ProbeUseCases {
         Planet newPlanet = planetUseCases.getPlanetByID(newPlanetID);
 
         if(newPlanet.getProbesIDs().size() >= 25) throw new PlanetFullException();
+        if(!oldPlanet.getProbesIDs().contains(probeID)) throw new ProbeIsNotInThePlanetException(oldPlanet, probe);
         if(getProbeInPlanetByName(newPlanetID, probe.getName()) != null) throw new ProbeAlreadyExistException(probe.getName());
 
         terminal.landProbe(probe, getProbesByPlanet(newPlanetID));
@@ -124,11 +125,14 @@ public class ProbeUseCases {
     public Probe deleteProbe(String planetID,String probeID) throws ExecutionException, InterruptedException {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference probeDoc = database.collection("probes").document(probeID);
-        Probe probe = getProbeByID(probeID);
-        probeDoc.delete();
+
+
 
         Planet planet = planetUseCases.getPlanetByID(planetID);
         planet.removeProbeID(probeID);
+
+        Probe probe = getProbeByID(probeID);
+        probeDoc.delete();
 
         planetUseCases.updatePlanetProbesID(planetID, planet.getProbesIDs());
 
