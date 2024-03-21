@@ -48,12 +48,12 @@ O Sistema é constituído por 3 Controllers sendo eles: Galaxy(Galáxia), Planet
   **Obs:** É necessário inserir o ID do Planeta e da Sonda na URL.
   **Ex: http://localhost:4500/api/probe/{planetID}/{probeID}/move**
 
-**- DELETE;** Deleta uma Sonda. É necesário inserir o ID da Sonda e do Planeta na URL.
+**- DELETE;** Deleta uma Sonda, é necessário inserir o ID da Sonda e do Planeta na URL.
   **Ex: http://localhost:4500/api/probe/{planetID}/{probeID}/delete**
 
 **Regras de Negócio:**
 
-- Não é possível haver mais de 25 Sondas em um mesmo Planeta. É possível Haver apenas uma Sonda por posição no Planeta.
-- Todas as sondas tem como padrão a posição de Pouso X = 1 e Y = 1. Caso já haja uma Sonda nesta posição, ela será movida para uma posição vazia.
-- São aceitos no máximo 100 comandos por vez. Caso a sonda seja movida para um lugar já ocupado, ela vai ser movida para uma posição vazia automaticamente.
-- Todos os nomes não podem ultrapassar o limite de 20 carecteres ou conter os careceteres; "/ \" ou espaços em branco.
+- Não é possível haver mais de 25 Sondas em um mesmo Planeta. É possível haver apenas uma Sonda por posição no Planeta.
+- Todas as Sondas tem como padrão a posição de pouso X = 1 e Y = 1. Caso já haja uma Sonda nesta posição, ela será movida para uma posição vazia.
+- São aceitos no máximo 100 comandos por vez. Caso a Sonda seja movida para um lugar já ocupado, ela vai ser movida para uma posição vazia automaticamente.
+- Todos os nomes não podem ultrapassar o limite de 20 caracteres ou conter os caracteres; "/ \" ou espaços em branco.
