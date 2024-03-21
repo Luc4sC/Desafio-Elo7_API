@@ -126,12 +126,11 @@ public class ProbeUseCases {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference probeDoc = database.collection("probes").document(probeID);
 
-
-
         Planet planet = planetUseCases.getPlanetByID(planetID);
-        planet.removeProbeID(probeID);
-
         Probe probe = getProbeByID(probeID);
+        if(!planet.getProbesIDs().contains(probeID)) throw new ProbeIsNotInThePlanetException(planet, probe);
+
+        planet.removeProbeID(probeID);
         probeDoc.delete();
 
         planetUseCases.updatePlanetProbesID(planetID, planet.getProbesIDs());
