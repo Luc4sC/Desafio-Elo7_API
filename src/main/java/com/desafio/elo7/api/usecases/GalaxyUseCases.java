@@ -55,7 +55,6 @@ public class GalaxyUseCases {
         DocumentReference document = database.collection("galaxies").document(id);
         Galaxy galaxy = document.get().get().toObject(Galaxy.class);
         if(galaxy == null) throw new IDNotFoundException(id, "Galaxy");
-        log.info(document.toString());
         return galaxy;
     }
 

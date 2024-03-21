@@ -37,7 +37,7 @@ public class ProbeUseCases {
         final Firestore database = FirestoreClient.getFirestore();
         DocumentReference newProbe = database.collection("probes").document();
 
-        Probe probe = Probe.builder().id(newProbe.getId()).name(probeDTO.name()).positionInX(0).positionInY(0).guidance("North, ↑").build();
+        Probe probe = Probe.builder().id(newProbe.getId()).name(probeDTO.name()).positionInX(1).positionInY(1).guidance("North, ↑").build();
 
         if(!probes.isEmpty()) terminal.landProbe(probe, probes);
         Planet planet = planetUseCases.getPlanetByID(planetID);
@@ -63,7 +63,6 @@ public class ProbeUseCases {
         DocumentReference document = database.collection("probes").document(id);
         Probe probe = document.get().get().toObject(Probe.class);
         if(probe == null) throw new IDNotFoundException(id, "Probe");
-        log.info(document.toString());
         return probe;
     }
 

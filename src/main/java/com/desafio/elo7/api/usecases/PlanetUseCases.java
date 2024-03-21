@@ -45,7 +45,6 @@ public class PlanetUseCases {
         DocumentReference document = database.collection("planets").document(id);
         Planet planet = document.get().get().toObject(Planet.class);
         if(planet == null) throw new IDNotFoundException(id, "Planet");
-        log.info(document.toString());
         return planet;
     }
 
@@ -53,7 +52,6 @@ public class PlanetUseCases {
         List<Planet> planets = new ArrayList<>();
         Galaxy galaxy = galaxyUseCases.getGalaxyByID(galaxyID);
         List<String> planetsIDs = galaxy.getPlanetsIDs();
-        log.info(planetsIDs.toString());
         for (String id : planetsIDs) {
             Planet planet = getPlanetByID(id);
             planets.add(planet);
