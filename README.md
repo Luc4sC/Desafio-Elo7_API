@@ -17,11 +17,11 @@ O Sistema é constituído por 3 Controllers sendo eles: Galaxy(Galáxia), Planet
 
 **- GET;** Retorna todos os Planetas criados filtrados por Galáxia. 
 **Obs:** É necessário inserir o ID da Galáxia ao final da URL.
-**Ex:** http://localhost:4500/api/planet/**{galaxyID}**
+**Ex: http://localhost:4500/api/planet/{galaxyID}**
 
 **- POST;** Cria um novo Planeta, é necessário enviar um Body JSON com o campo "name".
 **Obs:** É necessário inserir o ID da Galáxia ao final da URL.
-**Ex:** http://localhost:4500/api/planet/**{galaxyID}**
+**Ex: http://localhost:4500/api/planet/{galaxyID}**
 
 
 **Probe Controller:**
@@ -30,26 +30,26 @@ O Sistema é constituído por 3 Controllers sendo eles: Galaxy(Galáxia), Planet
 
 **- GET;** Retorna todas as Sondas criadas filtradas por Planeta. 
   **Obs:** É necessário inserir o ID do Planeta no Query Parameter.
-  **Ex:** http://localhost:4500/api/probe?**planetID={planetID}**
+  **Ex: http://localhost:4500/api/probe?planetID={planetID}**
 
 **- GET;** Retorna uma única Sonda. 
   **Obs:** É necessário inserir o ID da Sonda ao final da URL.
-  **Ex:** http://localhost:4500/api/probe/**{planetID}**
+  **Ex: http://localhost:4500/api/probe/{planetID}**
 
 **- POST;** Cria uma nova Sonda, é necessário enviar um Body JSON com o campo "name".
   **Obs:** É necessário inserir o ID do Planeta ao final da URL.
-  **Ex:** http://localhost:4500/api/probe/**{planetID}**
+  **Ex: http://localhost:4500/api/probe/{planetID}**
 
 
 **- PUT;**  Altera uma Sonda de Planeta, é necessário inserir o ID dos dois planetas e o da Sonda na URL.
-  **Ex:** http://localhost:4500/api/probe/**{oldPlanetID}/{probeID}/{newPlanet}/change**
+  **Ex: http://localhost:4500/api/probe/{oldPlanetID}/{probeID}/{newPlanet}/change**
 
 **- PUT;**  Movimenta a Sonda, é necessário enviar um Body JSON com o campo "commands".
   **Obs:** É necessário inserir o ID do Planeta e da Sonda na URL.
-  **Ex:** http://localhost:4500/api/probe/**{planetID}/{probeID}/move**
+  **Ex: http://localhost:4500/api/probe/{planetID}/{probeID}/move**
 
 **- DELETE;** Deleta uma Sonda. É necesário inserir o ID da Sonda e do Planeta na URL.
-  **Ex:** http://localhost:4500/api/probe/**{planetID}/{probeID}/delete**
+  **Ex: http://localhost:4500/api/probe/{planetID}/{probeID}/delete**
 
 **Regras de Negócio:**
 
