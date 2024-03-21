@@ -59,4 +59,11 @@ public class GlobalHandler {
         DefaultError error = new DefaultError(HttpStatus.NOT_FOUND.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(ProbeIsNotInThePlanetException.class)
+    public ResponseEntity<Object> handlerProbeIsNotInThePlanetException(ProbeIsNotInThePlanetException ex,
+                                                                        HttpServletRequest request){
+        DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }

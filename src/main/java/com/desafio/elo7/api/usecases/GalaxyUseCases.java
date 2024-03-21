@@ -1,11 +1,11 @@
 package com.desafio.elo7.api.usecases;
 
-import com.desafio.elo7.api.classes.Tools;
-import com.desafio.elo7.api.classes.galaxy.Galaxy;
-import com.desafio.elo7.api.classes.galaxy.GalaxyDTO;
+import com.desafio.elo7.api.entities.Galaxy;
+import com.desafio.elo7.api.dtos.GalaxyDTO;
 import com.desafio.elo7.api.exceptions.GalaxyAlreadyExistException;
 import com.desafio.elo7.api.exceptions.IDNotFoundException;
 import com.desafio.elo7.api.exceptions.InvalidNameException;
+import com.desafio.elo7.api.utills.StringUtils;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
@@ -23,11 +23,10 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 @Slf4j
-@AllArgsConstructor
-public class GalaxyUseCases implements Tools {
+public class GalaxyUseCases {
 
-    public String newGalaxy(@RequestBody GalaxyDTO galaxyDTO) throws ExecutionException, InterruptedException {
-        if(verifyName(galaxyDTO.name())) throw new InvalidNameException();
+    public Galaxy newGalaxy(@RequestBody GalaxyDTO galaxyDTO) throws ExecutionException, InterruptedException {
+        if(StringUtils.isValidText(galaxyDTO.name())) throw new InvalidNameException();
         if(getGalaxyByName(galaxyDTO.name()) != null) throw new GalaxyAlreadyExistException(galaxyDTO.name());
 
         final Firestore database = FirestoreClient.getFirestore();
@@ -36,7 +35,7 @@ public class GalaxyUseCases implements Tools {
         newGalaxy.set(galaxy);
         log.info("New Galaxy created");
 
-        return galaxy.toString();
+        return galaxy;
     }
 
     public List<Galaxy> getGalaxies() throws ExecutionException, InterruptedException {
@@ -56,7 +55,6 @@ public class GalaxyUseCases implements Tools {
         DocumentReference document = database.collection("galaxies").document(id);
         Galaxy galaxy = document.get().get().toObject(Galaxy.class);
         if(galaxy == null) throw new IDNotFoundException(id, "Galaxy");
-        log.info(document.toString());
         return galaxy;
     }
 
@@ -64,7 +62,7 @@ public class GalaxyUseCases implements Tools {
         Galaxy galaxy = null;
         List<Galaxy> galaxies = getGalaxies();
         for(Galaxy galaxyX : galaxies){
-            if(galaxyX.getName().equals(name)) galaxy = galaxyX;
+            if(galaxyX.getName().equalsIgnoreCase(name)) galaxy = galaxyX;
         }
         return galaxy;
     }
@@ -78,10 +76,5 @@ public class GalaxyUseCases implements Tools {
             galaxyDoc.update("planetsIDs", galaxy.getPlanetsIDs());
             log.info(galaxy + " Uploaded");
         }
-    }
-
-    @Override
-    public boolean verifyName(String name) {
-        return name.contains(" ") || name.contains("/") || name.contains("\\") || name.length() > 20;
     }
 }
