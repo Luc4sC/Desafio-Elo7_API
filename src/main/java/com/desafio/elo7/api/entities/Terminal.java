@@ -32,29 +32,28 @@ public class Terminal {
             }
 
             if (c == commands[0] && currentGuidanceInList == 1) {
-                int newPositionInX = (probe.getPositionInX() - 1) % 5;
+                int newPositionInX = (probe.getPositionInX() - 1) % 6;
                 probe.setPositionInX(newPositionInX);
             }
 
             if (c == commands[0] && currentGuidanceInList == 2) {
-                int newPositionInY = (probe.getPositionInY() - 1) % 5;
+                int newPositionInY = (probe.getPositionInY() - 1) % 6;
                 probe.setPositionInY(newPositionInY);
             }
 
             if (c == commands[0] && currentGuidanceInList == 3) {
-                int newPositionInX = (probe.getPositionInX() + 1) % 5;
+                int newPositionInX = (probe.getPositionInX() + 1) % 6;
                 probe.setPositionInX(newPositionInX);
             }
 
-            if (c == commands[1]) probe.setGuidance(guidances.get(currentGuidanceInList + 1 % 4));
-            if (c == commands[2]) {
-                if(currentGuidanceInList - 1 < 0){
-                    currentGuidanceInList = (currentGuidanceInList - 1) * -3 % 4;
-                    probe.setGuidance(guidances.get(currentGuidanceInList));
-                } else{
-                    probe.setGuidance(guidances.get(currentGuidanceInList - 1));
-                }
-
+            if (c == commands[1]){
+                int newGuidance = (currentGuidanceInList + 1) % 4;
+                probe.setGuidance(guidances.get(newGuidance));
+            }
+            if (c == commands[2]){
+                int newGuidance = (currentGuidanceInList - 1) % 4;
+                if(newGuidance < 0) newGuidance = newGuidance * -3 % 4;
+                probe.setGuidance(guidances.get(newGuidance));
             }
         }
     }
