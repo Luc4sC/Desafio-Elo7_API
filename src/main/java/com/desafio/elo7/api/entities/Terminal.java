@@ -46,8 +46,16 @@ public class Terminal {
                 probe.setPositionInX(newPositionInX);
             }
 
-            if (c == commands[1]) probe.setGuidance(guidances.get(currentGuidanceInList + 1));
-            if (c == commands[2]) probe.setGuidance(guidances.get(currentGuidanceInList + 1));
+            if (c == commands[1]) probe.setGuidance(guidances.get(currentGuidanceInList + 1 % 4));
+            if (c == commands[2]) {
+                if(currentGuidanceInList - 1 < 0){
+                    currentGuidanceInList = (currentGuidanceInList - 1) * -3 % 4;
+                    probe.setGuidance(guidances.get(currentGuidanceInList));
+                } else{
+                    probe.setGuidance(guidances.get(currentGuidanceInList - 1));
+                }
+
+            }
         }
     }
 
