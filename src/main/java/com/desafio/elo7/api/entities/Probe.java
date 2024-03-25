@@ -19,14 +19,14 @@ public class Probe {
 
     public int getPositionInX() {
         if(this.positionInX == 0) this.positionInX = 5;
-        if(this.positionInX < 0) this.positionInX = this.positionInX * -5 % 6;
+        if(this.positionInX < 0) this.positionInX = this.positionInX * -5 % 5;
 
         return this.positionInX;
     }
 
     public int getPositionInY() {
         if(this.positionInY == 0) this.positionInY = 5;
-        if(this.positionInY < 0) this.positionInY = this.positionInY * -5 % 6;
+        if(this.positionInY < 0) this.positionInY = this.positionInY * -5 % 5;
         return this.positionInY;
     }
 
