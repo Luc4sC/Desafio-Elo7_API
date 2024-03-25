@@ -32,17 +32,17 @@ public class Terminal {
             }
 
             if (c == commands[0] && currentGuidanceInList == 1) {
-                int newPositionInX = (probe.getPositionInX() - 1) % 6;
+                int newPositionInX = (probe.getPositionInX() - 1) % 5;
                 probe.setPositionInX(newPositionInX);
             }
 
             if (c == commands[0] && currentGuidanceInList == 2) {
-                int newPositionInY = (probe.getPositionInY() - 1) % 6;
+                int newPositionInY = (probe.getPositionInY() - 1) % 5;
                 probe.setPositionInY(newPositionInY);
             }
 
             if (c == commands[0] && currentGuidanceInList == 3) {
-                int newPositionInX = (probe.getPositionInX() + 1) % 6;
+                int newPositionInX = (probe.getPositionInX() + 1) % 5;
                 probe.setPositionInX(newPositionInX);
             }
 
