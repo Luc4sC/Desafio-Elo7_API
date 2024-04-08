@@ -34,7 +34,7 @@ O Sistema é constituído por 3 Controllers sendo eles: Galaxy(Galáxia), Planet
 
 - **GET;** Retorna uma única Sonda. 
   **Obs:** É necessário inserir o ID da Sonda ao final da URL.
-  **Ex: http://localhost:4500/api/probe/{planetID}**
+  **Ex: http://localhost:4500/api/probe/{probeID}**
 
 - **POST;** Cria uma nova Sonda, é necessário enviar um Body JSON com o campo "name".
   **Obs:** É necessário inserir o ID do Planeta ao final da URL.
